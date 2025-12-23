@@ -1,0 +1,19 @@
+{
+  "app.hideMenubarIcon": true,
+  "autocomplete.devCompletionsFolder": "/Users/samhu/dev/autocomplete/build",
+  "autocomplete.developerMode": true,
+  "autocomplete.firstTokenCompletion": true,
+  "autocomplete.fuzzySearch": true,
+  "autocomplete.hideAutoExecuteSuggestion": false,
+  "autocomplete.immediatelyRunGitAliases": false,
+  "autocomplete.keybindings.caps_lock": "ignore",
+  "autocomplete.keybindings.control+k": "ignore",
+  "autocomplete.keybindings.f": "ignore",
+  "autocomplete.keybindings.option+g": "ignore",
+  "autocomplete.keybindings.shift+-": "ignore",
+  "autocomplete.keybindings.shift+tab": "ignore",
+  "autocomplete.keybindings.tab": "insertCommonPrefixOrInsertSelected",
+  "codeWhisperer.shareCodeWhispererContentWithAWS": false,
+  "inline.enabled": false,
+  "telemetry.enabled": false
+}
