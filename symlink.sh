@@ -12,19 +12,20 @@ NC='\033[0m' # No Color
 # Track if any backups were created
 BACKUPS_CREATED=false
 
-echo "Setting up dotfiles from $DOTFILES_DIR"
 echo ""
+echo "━━━ Dotfiles ━━━"
 
 # Function to create symlink
 create_symlink() {
   local source="$1"
   local target="$2"
+  local filename=$(basename "$target")
 
   # If target already exists
   if [ -e "$target" ] || [ -L "$target" ]; then
     # If it's already a symlink pointing to the correct location
     if [ -L "$target" ] && [ "$(readlink "$target")" = "$source" ]; then
-      echo -e "${GREEN}✓${NC} $target already linked correctly"
+      echo -e "  ${GREEN}✓${NC} ${filename}"
       return
     fi
 
@@ -47,12 +48,12 @@ create_symlink() {
 
     if [ "$contents_match" = true ]; then
       # Contents are identical, just replace with symlink (no backup needed)
-      echo -e "${GREEN}✓${NC} $target contents match, replacing with symlink"
+      echo -e "  ${GREEN}✓${NC} ${filename} (synced)"
       rm -rf "$target"
     else
       # Contents differ or target is a symlink to wrong location, back up first
       backup="$target.backup.$(date +%Y%m%d_%H%M%S)"
-      echo -e "${YELLOW}⚠${NC}  Backing up existing $target to $backup"
+      echo -e "  ${YELLOW}⚠${NC}  ${filename} (backed up)"
       mv "$target" "$backup"
       BACKUPS_CREATED=true
     fi
@@ -60,7 +61,6 @@ create_symlink() {
 
   # Create the symlink
   ln -s "$source" "$target"
-  echo -e "${GREEN}✓${NC} Linked $target -> $source"
 }
 
 # Loop through all files and directories in the dotfiles subdirectory
@@ -72,8 +72,7 @@ for item in "$DOTFILES_DIR"/*; do
   create_symlink "$item" "$HOME/.$filename"
 done
 
-echo ""
-echo -e "${GREEN}Done!${NC} Dotfiles symlinked successfully."
 if [ "$BACKUPS_CREATED" = true ]; then
-  echo "Any existing files have been backed up with .backup.* extension"
+  echo ""
+  echo "Backups created with .backup.* extension"
 fi
