@@ -31,11 +31,13 @@ done
 # Homebrew casks to install
 CASKS=(
   bettertouchtool
+  claude
   google-chrome
   iterm2
   itsycal
   kiro-cli
   mactex
+  mos
   pulsar
   raycast
   rectangle-pro
