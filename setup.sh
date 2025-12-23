@@ -8,6 +8,57 @@ else
   echo "Homebrew already installed, skipping..."
 fi
 
+# Homebrew formulas to install
+FORMULAS=(
+  gh
+)
+
+echo ""
+for formula in "${FORMULAS[@]}"; do
+  if ! brew list --formula | grep -q "^${formula}$"; then
+    echo "Installing ${formula}..."
+    brew install "$formula"
+  else
+    echo "${formula} already installed, skipping..."
+  fi
+done
+
+# Homebrew casks to install
+CASKS=(
+  bettertouchtool
+  google-chrome
+  iterm2
+  itsycal
+  kiro-cli
+  mactex
+  pulsar
+  raycast
+  rectangle-pro
+  slack
+  spotify
+  visual-studio-code
+)
+
+echo ""
+for cask in "${CASKS[@]}"; do
+  if ! brew list --cask | grep -q "^${cask}$"; then
+    echo "Installing ${cask}..."
+    brew install --cask "$cask"
+  else
+    echo "${cask} already installed, skipping..."
+  fi
+done
+
+# GitHub CLI authentication
+echo ""
+if ! gh auth status &>/dev/null; then
+  echo "Logging into GitHub CLI..."
+  gh auth login
+else
+  echo "GitHub CLI already authenticated, skipping..."
+fi
+echo ""
+
 # oh-my-zsh
 if [ ! -d "$HOME/.oh-my-zsh" ]; then
   echo "Installing oh-my-zsh..."
@@ -29,7 +80,7 @@ fi
 ENHANCD_DIR="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/enhancd"
 if [ ! -d "$ENHANCD_DIR" ]; then
   echo "Installing enhancd..."
-  git clone https://github.com/babarot/enhancd.git "$ENHANCD_DIR"
+  git clone https://github.com/sam-hu/enhancd.git "$ENHANCD_DIR"
 else
   echo "enhancd already installed, skipping..."
 fi
@@ -53,6 +104,7 @@ else
 fi
 
 # Kiro CLI (fka Fig)
+# Clone https://github.com/sam-hu/fig-autocomplete and point dev mode to /build
 if ! command -v kiro-cli &> /dev/null; then
   echo "Installing Kiro CLI..."
   curl -fsSL https://cli.kiro.dev/install | bash

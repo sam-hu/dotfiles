@@ -1,13 +1,16 @@
 #!/bin/zsh
 
 # Get the directory where this script is located
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+SCRIPT_DIR="$( cd "$( dirname "${(%):-%x}" )" && pwd )"
 DOTFILES_DIR="$SCRIPT_DIR/dotfiles"
 
 # Color codes for output
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m' # No Color
+
+# Track if any backups were created
+BACKUPS_CREATED=false
 
 echo "Setting up dotfiles from $DOTFILES_DIR"
 echo ""
@@ -51,6 +54,7 @@ create_symlink() {
       backup="$target.backup.$(date +%Y%m%d_%H%M%S)"
       echo -e "${YELLOW}⚠${NC}  Backing up existing $target to $backup"
       mv "$target" "$backup"
+      BACKUPS_CREATED=true
     fi
   fi
 
@@ -70,4 +74,6 @@ done
 
 echo ""
 echo -e "${GREEN}Done!${NC} Dotfiles symlinked successfully."
-echo "Any existing files have been backed up with .backup.* extension"
+if [ "$BACKUPS_CREATED" = true ]; then
+  echo "Any existing files have been backed up with .backup.* extension"
+fi
