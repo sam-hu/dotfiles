@@ -32,6 +32,7 @@ done
 CASKS=(
   bettertouchtool
   claude
+  fzf
   google-chrome
   iterm2
   itsycal
