@@ -84,6 +84,9 @@ mkdir -p "$HOME/.claude/skills"
 # Symlink CLAUDE.md
 create_symlink "$CLAUDE_DIR/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 
+# Symlink statusline-command.sh
+create_symlink "$CLAUDE_DIR/statusline-command.sh" "$HOME/.claude/statusline-command.sh"
+
 # Symlink each skill directory
 for skill in "$CLAUDE_DIR/skills"/*/; do
   skill_name=$(basename "$skill")
