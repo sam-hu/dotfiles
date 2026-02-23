@@ -48,7 +48,17 @@ Check out the new branch:
 git checkout -b samhu/{generated-branch-name}
 ```
 
-### Step 3: Commit
+### Step 3: Check for Graphite
+
+Before committing, detect whether the branch is tracked by Graphite:
+
+```bash
+gt branch info 2>/dev/null && echo "GRAPHITE" || echo "NO_GRAPHITE"
+```
+
+If `gt` is not installed or the command fails, fall back to standard git. If it succeeds, use Graphite commands for the commit and push steps below.
+
+### Step 4: Commit
 
 Write a commit message that is informative and precise. Format:
 
@@ -62,17 +72,29 @@ Types: `feat`, `fix`, `refactor`, `chore`, `docs`, `test`, `style`, `perf`
 
 The summary line should be under 72 characters. Include a body paragraph when the change is complex or the motivation isn't obvious from the diff.
 
+**If Graphite:**
+```bash
+gt cc -m "{commit message}"
+```
+
+**If standard git:**
 ```bash
 git commit -m "{commit message}"
 ```
 
-### Step 4: Push
+### Step 5: Push
 
+**If Graphite:**
+```bash
+gt s
+```
+
+**If standard git:**
 ```bash
 git push -u origin samhu/{generated-branch-name}
 ```
 
-### Step 5: Open PR
+### Step 6: Open PR
 
 First, check for a PR template:
 
@@ -104,7 +126,7 @@ git remote get-url origin
 
 Then construct: `https://github.com/{owner}/{repo}/compare/samhu/{branch-name}?expand=1` and tell the user to open it in their browser.
 
-### Step 6: Return the PR Link
+### Step 7: Return the PR Link
 
 After `gh pr create` succeeds, it outputs the PR URL. Capture and display it prominently to the user.
 

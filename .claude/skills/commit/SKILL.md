@@ -25,7 +25,17 @@ Read the diff carefully. Your goal is to deeply understand:
 
 This analysis powers the commit message, so invest real thought here.
 
-### Step 2: Commit
+### Step 2: Check for Graphite
+
+Before committing, detect whether the branch is tracked by Graphite:
+
+```bash
+gt branch info 2>/dev/null && echo "GRAPHITE" || echo "NO_GRAPHITE"
+```
+
+If `gt` is not installed or the command fails, fall back to standard git. If it succeeds, use Graphite commands for the commit and push steps below.
+
+### Step 3: Commit
 
 Write a commit message that is informative and precise. Format:
 
@@ -39,14 +49,24 @@ Types: `feat`, `fix`, `refactor`, `chore`, `docs`, `test`, `style`, `perf`
 
 The summary line should be under 72 characters. Include a body paragraph when the change is complex or the motivation isn't obvious from the diff.
 
+**If Graphite:**
+```bash
+gt cc -m "{commit message}"
+```
+
+**If standard git:**
 ```bash
 git commit -m "{commit message}"
 ```
 
-If the code cannot be commit because of a pre-commit hook failure, stop execution and return a summary of the failed check(s).
+### Step 4: Push
 
-### Step 3: Push
+**If Graphite:**
+```bash
+gt s
+```
 
+**If standard git:**
 ```bash
 git push
 ```
