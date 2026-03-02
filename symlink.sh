@@ -79,7 +79,7 @@ echo ""
 echo "━━━ Claude Code ━━━"
 
 # Ensure ~/.claude exists
-mkdir -p "$HOME/.claude/skills"
+mkdir -p "$HOME/.claude"
 
 # Symlink CLAUDE.md
 create_symlink "$CLAUDE_DIR/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
@@ -87,11 +87,8 @@ create_symlink "$CLAUDE_DIR/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 # Symlink statusline-command.sh
 create_symlink "$CLAUDE_DIR/statusline-command.sh" "$HOME/.claude/statusline-command.sh"
 
-# Symlink each skill directory
-for skill in "$CLAUDE_DIR/skills"/*/; do
-  skill_name=$(basename "$skill")
-  create_symlink "$CLAUDE_DIR/skills/$skill_name" "$HOME/.claude/skills/$skill_name"
-done
+# Symlink entire skills directory
+create_symlink "$CLAUDE_DIR/skills" "$HOME/.claude/skills"
 
 if [ "$BACKUPS_CREATED" = true ]; then
   echo ""
