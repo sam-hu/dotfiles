@@ -37,6 +37,8 @@ If `gt` is not installed or the command fails, fall back to standard git. If it 
 
 ### Step 3: Commit
 
+**Pre-commit hook handling**: If a pre-commit hook runs and flags issues, inspect the errors. If they are easily fixable (formatting, lint, trailing whitespace, import sorting, etc.), fix them automatically, re-stage the affected files, and retry the commit. Only surface hook failures to the user if they require judgment or non-trivial changes.
+
 Write a commit message that is informative and precise. Format:
 
 ```

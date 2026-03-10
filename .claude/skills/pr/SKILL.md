@@ -29,8 +29,12 @@ This analysis powers everything downstream — the branch name, commit message, 
 
 Create a branch name following this scheme: `samhu/{generated-branch-name}`
 
+**Hard constraints:**
+- The full branch name (including `samhu/`) **MUST** stay under 48 characters total
+- The branch name **MUST** start with `samhu/` — no exceptions
+
 The generated part should be:
-- **Short**: 3-6 words max
+- **Short**: 3-5 words max (keep the total under 48 chars)
 - **Hyphenated**: all lowercase, words joined by hyphens
 - **Descriptive**: captures the core intent of the changes
 - **Action-oriented**: start with a verb when natural (e.g., `add`, `fix`, `refactor`, `update`, `remove`)
@@ -59,6 +63,8 @@ gt branch info 2>/dev/null && echo "GRAPHITE" || echo "NO_GRAPHITE"
 If `gt` is not installed or the command fails, fall back to standard git. If it succeeds, use Graphite commands for the commit and push steps below.
 
 ### Step 4: Commit
+
+**Pre-commit hook handling**: If a pre-commit hook runs and flags issues, inspect the errors. If they are easily fixable (formatting, lint, trailing whitespace, import sorting, etc.), fix them automatically, re-stage the affected files, and retry the commit. Only surface hook failures to the user if they require judgment or non-trivial changes.
 
 Write a commit message that is informative and precise. Format:
 
@@ -102,11 +108,12 @@ First, check for a PR template:
 cat PULL_REQUEST_TEMPLATE.md 2>/dev/null || cat .github/PULL_REQUEST_TEMPLATE.md 2>/dev/null || echo "NO_TEMPLATE"
 ```
 
-**Compose the PR title**: Clear and concise, matching the commit summary but written for a reviewer audience. Should convey what changed and why at a glance.
+**Compose the PR title**: Clear and concise, matching the commit summary but written for a reviewer audience. Should convey what changed and why at a glance. **The PR title MUST always be set — never leave it empty or use a default.**
 
-**Compose the PR description**:
+**Compose the PR description**: **The PR description MUST always be set — never leave it empty or skip it.**
 - If a `PULL_REQUEST_TEMPLATE.md` exists: fill out every section of the template thoughtfully based on your analysis of the diff. Don't leave placeholder text — provide real, specific content for each field.
 - If no template exists: write a structured description covering: what changed, why, how it was implemented, and any testing notes or caveats.
+- **Never skip the description. Every PR must have a meaningful body.**
 
 Create the PR using the GitHub CLI:
 
