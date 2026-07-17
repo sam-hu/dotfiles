@@ -87,8 +87,25 @@ create_symlink "$CLAUDE_DIR/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
 # Symlink statusline-command.sh
 create_symlink "$CLAUDE_DIR/statusline-command.sh" "$HOME/.claude/statusline-command.sh"
 
-# Symlink entire skills directory
-create_symlink "$CLAUDE_DIR/skills" "$HOME/.claude/skills"
+# Replace the old whole-directory symlink before linking skills individually
+if [ -L "$HOME/.claude/skills" ] && [ "$(readlink "$HOME/.claude/skills")" = "$CLAUDE_DIR/skills" ]; then
+  rm "$HOME/.claude/skills"
+fi
+
+mkdir -p "$HOME/.claude/skills"
+
+for skill in "$CLAUDE_DIR/skills"/*; do
+  create_symlink "$skill" "$HOME/.claude/skills/$(basename "$skill")"
+done
+
+echo ""
+echo "━━━ Codex ━━━"
+
+mkdir -p "$HOME/.codex/skills"
+
+for skill in "$CLAUDE_DIR/skills"/*; do
+  create_symlink "$skill" "$HOME/.codex/skills/$(basename "$skill")"
+done
 
 if [ "$BACKUPS_CREATED" = true ]; then
   echo ""
